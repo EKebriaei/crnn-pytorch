@@ -13,16 +13,16 @@ if __name__ == '__main__':
     parser.add_argument("--img_path", default="sample_images/image_01.jpg")
     parser.add_argument("--save_img", action="store_true", help="if set saves the output image")
     parser.add_argument("--test", default=False)
-    parser.add_argument("--val_directory", type=Path, default="./validation/", help="path to the validation, default: ./validation/")
+    parser.add_argument("--val_directory", default="./validation/", help="path to the validation, default: ./validation/")
 
     args = parser.parse_args()
     model = CRNNInferenceTorch(args.model_path)
     correct = 0
     tic = time.time()
-    if parser.test == True:
-        for name in os.listdir(parser.val_directory):
+    if args.test:
+        for name in os.listdir(args.val_directory):
             label = name.split('_')[1]
-            prediction = model.infer(parser.val_directory + name)
+            prediction = model.infer(args.val_directory + name)
             prediction = "".join(prediction)
             if prediction == label:
                 correct += 1
